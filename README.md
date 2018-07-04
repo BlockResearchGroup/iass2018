@@ -77,9 +77,7 @@ Download [IASS2018](https://github.com/BlockResearchGroup/iass2018/archive/maste
 
 https://github.com/BlockResearchGroup/iass2018/issues
 
-## Links and Resources
-
-**COMPAS**
+## Links
 
 * https://compas-dev.github.io
 * https://forum.compas-framework.org
@@ -88,14 +86,3 @@ https://github.com/BlockResearchGroup/iass2018/issues
 * https://github.com/compas-dev/compas_ags
 * https://github.com/compas-dev/compas_tna
 * https://github.com/compas-dev/compas_3gs
-
-**Python**
-
-* https://docs.python.org/3/
-* https://realpython.com/
-* https://www.labri.fr/perso/nrougier/from-python-to-numpy/
-* ...
-
-**Other**
-
-* ...
