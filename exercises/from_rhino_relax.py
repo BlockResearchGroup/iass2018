@@ -9,6 +9,7 @@ from compas_rhino.utilities import get_meshes
 from compas_rhino.helpers import mesh_from_guid
 
 from compas.utilities import pairwise
+from compas.utilities import flatten
 
 from compas_tna.rhino import RhinoFormDiagram
 from compas_tna.rhino import RhinoForceDiagram
@@ -33,18 +34,17 @@ form = mesh_from_guid(RhinoFormDiagram, guid)
 for key in form.vertices_where({'vertex_degree': 2}):
     form.vertex[key]['is_anchor'] = True
 
-# find open faces (conv. function to come) -------------------------------------
+# make rhino from diagram ------------------------------------------------------
 boundaries = form.vertices_on_boundary()
 exterior = boundaries[0]
 interior = boundaries[1:]
 
-for key in exterior:
-    form.set_vertex_attribute(key, 'is_anchor', True)
+form.set_edges_attribute('q', 10.0, keys=form.edges_on_boundary())
+form.relax(fixed=form.vertices_where({'vertex_degree': 2}))
+
 
 form.update_exterior(exterior, feet=2)
 form.update_interior(interior)
-
-
 
 # make rhino force diagram -----------------------------------------------------
 force = RhinoForceDiagram.from_formdiagram(form)

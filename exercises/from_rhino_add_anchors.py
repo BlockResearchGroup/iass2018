@@ -6,10 +6,9 @@ import compas
 
 from compas_rhino.utilities import XFunc
 from compas_rhino.utilities import get_meshes
+from compas_rhino.helpers import mesh_from_guid
 from compas_rhino.utilities import get_points
 from compas_rhino.utilities import get_point_coordinates
-
-from compas_rhino.helpers import mesh_from_guid
 
 from compas.utilities import pairwise
 from compas.utilities import geometric_key
@@ -17,8 +16,8 @@ from compas.utilities import geometric_key
 from compas_tna.rhino import RhinoFormDiagram
 from compas_tna.rhino import RhinoForceDiagram
 
-horizontal_nodal = XFunc('compas_tna.equilibrium.horizontal_nodal')
-vertical_from_zmax = XFunc('compas_tna.equilibrium.vertical_from_zmax')
+horizontal_nodal = XFunc('compas_tna.equilibrium.horizontal_nodal_xfunc')
+vertical_from_zmax = XFunc('compas_tna.equilibrium.vertical_from_zmax_xfunc')
 
 
 __author__    = ['Tom Van Mele', 'Tomas Mendez Echenagucia']
@@ -37,33 +36,23 @@ form = mesh_from_guid(RhinoFormDiagram, guid)
 for key in form.vertices_where({'vertex_degree': 2}):
     form.vertex[key]['is_anchor'] = True
 
-guids = get_points('pts')
+guids = get_points('anchors')
 pts = get_point_coordinates(guids)
 gks= [form.gkey_key()[geometric_key(pt)] for pt in pts]
 
 for key in gks:
     form.vertex[key]['is_anchor'] = True
 
-# find open faces (conv. function to come) -------------------------------------
-boundary = form.vertices_on_boundary(ordered=True)
+# make rhino from diagram ------------------------------------------------------
+boundaries = form.vertices_on_boundary()
+exterior = boundaries[0]
+interior = boundaries[1:]
 
-unsupported = [[]]
-for key in boundary:
-    unsupported[-1].append(key)
-    if form.vertex[key]['is_anchor']:
-        unsupported.append([key])
+for key in exterior:
+    form.set_vertex_attribute(key, 'is_anchor', True)
 
-unsupported[-1] += unsupported[0]
-del unsupported[0]
-
-for vertices in unsupported:
-    fkey = form.add_face(vertices, is_unloaded=True)
-
-# set non-edges (conv. function to come) ---------------------------------------
-for vertices in unsupported:
-    u = vertices[-1]
-    v = vertices[0]
-    form.set_edge_attribute((u, v), 'is_edge', False)
+form.update_exterior(exterior, feet=2)
+form.update_interior(interior)
 
 # make rhino force diagram -----------------------------------------------------
 force = RhinoForceDiagram.from_formdiagram(form)
