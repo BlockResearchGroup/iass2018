@@ -7,11 +7,9 @@ import compas
 from compas_rhino.utilities import XFunc
 from compas_rhino.utilities import get_meshes
 from compas_rhino.helpers import mesh_from_guid
-from compas_rhino.utilities import get_points
-from compas_rhino.utilities import get_point_coordinates
 
 from compas.utilities import pairwise
-from compas.utilities import geometric_key
+from compas.utilities import flatten
 
 from compas_tna.rhino import RhinoFormDiagram
 from compas_tna.rhino import RhinoForceDiagram
@@ -36,20 +34,13 @@ form = mesh_from_guid(RhinoFormDiagram, guid)
 for key in form.vertices_where({'vertex_degree': 2}):
     form.vertex[key]['is_anchor'] = True
 
-guids = get_points('anchors')
-pts = get_point_coordinates(guids)
-gks= [form.gkey_key()[geometric_key(pt)] for pt in pts]
-
-for key in gks:
-    form.vertex[key]['is_anchor'] = True
-
 # make rhino from diagram ------------------------------------------------------
 boundaries = form.vertices_on_boundary()
 exterior = boundaries[0]
 interior = boundaries[1:]
 
-for key in exterior:
-    form.set_vertex_attribute(key, 'is_anchor', True)
+#form.set_edges_attribute('q', 3.0, keys=form.edges_on_boundary())
+#form.relax(fixed=form.vertices_where({'vertex_degree': 2}))
 
 form.update_exterior(exterior, feet=2)
 form.update_interior(interior)
@@ -58,7 +49,7 @@ form.update_interior(interior)
 force = RhinoForceDiagram.from_formdiagram(form)
 
 # horizontal equilibrium -------------------------------------------------------
-formdata, forcedata = horizontal_nodal(form.to_data(), force.to_data(), kmax=1000, display=False)
+formdata, forcedata = horizontal_nodal(form.to_data(), force.to_data(), kmax=100, alpha=95)
 
 # vertical equilibrium ---------------------------------------------------------
 formdata, forcedata = vertical_from_zmax(formdata, forcedata, zmax=3, display=False)

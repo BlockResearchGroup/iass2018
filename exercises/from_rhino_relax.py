@@ -39,7 +39,7 @@ boundaries = form.vertices_on_boundary()
 exterior = boundaries[0]
 interior = boundaries[1:]
 
-form.set_edges_attribute('q', 10.0, keys=form.edges_on_boundary())
+form.set_edges_attribute('q', 5.0, keys=form.edges_on_boundary())
 form.relax(fixed=form.vertices_where({'vertex_degree': 2}))
 
 
@@ -50,7 +50,7 @@ form.update_interior(interior)
 force = RhinoForceDiagram.from_formdiagram(form)
 
 # horizontal equilibrium -------------------------------------------------------
-formdata, forcedata = horizontal_nodal(form.to_data(), force.to_data(), kmax=1000)
+formdata, forcedata = horizontal_nodal(form.to_data(), force.to_data(), kmax=100, display=False)
 
 # vertical equilibrium ---------------------------------------------------------
 formdata, forcedata = vertical_from_zmax(formdata, forcedata, zmax=3, display=False)
