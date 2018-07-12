@@ -3,25 +3,23 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas
+import compas_rhino
 
-from compas_rhino.utilities import XFunc
+from compas.utilities import XFunc
+
 from compas_rhino.utilities import get_meshes
+from compas_rhino.helpers import mesh_from_guid
 from compas_rhino.utilities import get_points
 from compas_rhino.utilities import get_point_coordinates
-from compas_rhino.utilities import get_lines
-from compas_rhino.utilities import get_line_coordinates
-
-from compas_rhino.helpers import mesh_from_guid
 
 from compas.utilities import pairwise
 from compas.utilities import geometric_key
 
-from compas_tna.rhino import RhinoFormDiagram
-from compas_tna.rhino import RhinoForceDiagram
+from compas_tna.diagrams import FormDiagram
+from compas_tna.diagrams import ForceDiagram
 
-horizontal = XFunc('compas_tna.equilibrium.horizontal')
-vertical_from_zmax = XFunc('compas_tna.equilibrium.vertical_from_zmax')
-
+from compas_tna.rhino import FormArtist
+from compas_tna.rhino import ForceArtist
 
 __author__    = ['Tom Van Mele', 'Tomas Mendez Echenagucia']
 __copyright__ = 'Copyright 2016 - Block Research Group, ETH Zurich'
@@ -29,69 +27,86 @@ __license__   = 'MIT License'
 __email__     = 'vanmelet@ethz.ch'
 
 
+def horizontal(form, force, *args, **kwargs):
+    def callback(line, args):
+        print(line)
+        compas_rhino.wait()
+
+    f = XFunc('compas_tna.equilibrium.horizontal_xfunc', callback=callback)
+    formdata, forcedata = f(form.to_data(), force.to_data(), *args, **kwargs)
+    form.data = formdata
+    force.data = forcedata
+
+
+def vertical_from_formforce_xfunc(form, force, *args, **kwargs):
+    def callback(line, args):
+        print(line)
+        compas_rhino.wait()
+
+    f = XFunc('compas_tna.equilibrium.vertical_from_formforce_xfunc', callback=callback)
+    formdata, forcedata = f(form.to_data(), force.to_data(), *args, **kwargs)
+    form.data = formdata
+    force.data = forcedata
+
+
 # get rhino mesh guid from layer -----------------------------------------------
 guid = get_meshes(layer='mesh')[0]
 
 # make rhino form diagram ------------------------------------------------------
-form = mesh_from_guid(RhinoFormDiagram, guid)
+form = mesh_from_guid(FormDiagram, guid)
 
 # set anchor points ------------------------------------------------------------
 for key in form.vertices_where({'vertex_degree': 2}):
     form.vertex[key]['is_anchor'] = True
 
-guids = get_points('pts')
-pts = get_point_coordinates(guids)
-gk_dict = form.gkey_key()
-gks= [gk_dict[geometric_key(pt)] for pt in pts]
+# make form diagram ------------------------------------------------------
 
-for key in gks:
-    form.vertex[key]['is_anchor'] = True
+boundaries = form.vertices_on_boundary()
+exterior = boundaries[0]
+interior = boundaries[1:]
 
-# find open faces (conv. function to come) -------------------------------------
-boundary = form.vertices_on_boundary(ordered=True)
+form.set_edges_attribute('q', 10, keys=form.edges_on_boundary())
+form.relax(fixed=form.vertices_where({'vertex_degree': 2}))
 
-unsupported = [[]]
-for key in boundary:
-    unsupported[-1].append(key)
-    if form.vertex[key]['is_anchor']:
-        unsupported.append([key])
+for key in exterior:
+    form.set_vertex_attribute(key, 'is_anchor', True)
 
-unsupported[-1] += unsupported[0]
-del unsupported[0]
-
-for vertices in unsupported:
-    fkey = form.add_face(vertices, is_unloaded=True)
-
-# set non-edges (conv. function to come) ---------------------------------------
-for vertices in unsupported:
-    u = vertices[-1]
-    v = vertices[0]
-    form.set_edge_attribute((u, v), 'is_edge', False)
-
-# make rhino force diagram -----------------------------------------------------
-force = RhinoForceDiagram.from_formdiagram(form)
+form.update_exterior(exterior, feet=2)
+form.update_interior(interior)
 
 # set fmins - fmaxs ------------------------------------------------------------
-fmin = 3
-fmax = 5
-guids = get_lines(layer='edges')
-lines = get_line_coordinates(guids)
-edges = [[gk_dict[geometric_key(u)], gk_dict[geometric_key(v)]] for u, v in lines]
 
-for u, v in edges:
-    u_ = form.halfedge[u][v]
-    v_ = form.halfedge[v][u]
-    force.set_edge_attribute((u_, v), 'lmin', fmin)
-    force.set_edge_attribute((u_, v), 'lmax', fmax)
+fmin = 1.
+fmax = 1.5
+feet = form.edges_where({'is_edge': True, 'is_external': False})
+
+form.set_edges_attribute('fmin', fmin, feet)
+form.set_edges_attribute('fmax', fmax, feet)
+
+# make force diagram -----------------------------------------------------
+force = ForceDiagram.from_formdiagram(form)
+force.attributes['scale'] = 6.
 
 # horizontal equilibrium -------------------------------------------------------
-formdata, forcedata = horizontal(form.to_data(), force.to_data(), kmax=1000)
+horizontal(form, force, kmax=100)
 
 # vertical equilibrium ---------------------------------------------------------
-formdata, forcedata = vertical_from_zmax(formdata, forcedata, zmax=3, display=False)
-form.data = formdata
-force.data = forcedata
+vertical_from_formforce_xfunc(form, force)
 
 # rhino drawing ----------------------------------------------------------------
-form.draw()
-force.draw()
+artist = FormArtist(form, layer='FormDiagram')
+artist.clear_layer()
+artist.draw_vertices(keys=list(form.vertices_where({'is_external': False})))
+artist.draw_edges(keys=list(form.edges_where({'is_edge': True, 'is_external': False})))
+artist.draw_faces(fkeys=list(form.faces_where({'is_loaded': True})), join_faces=True)
+
+artist.draw_reactions(scale=.5)
+artist.draw_forces(scale=.002)
+
+artist.redraw()
+
+artist_ = ForceArtist(force, layer='ForceDiagram')
+artist_.clear_layer()
+artist_.draw_vertices()
+artist_.draw_edges()
+artist_.redraw()
