@@ -65,26 +65,27 @@ boundaries = form.vertices_on_boundary()
 exterior = boundaries[0]
 interior = boundaries[1:]
 
+form.set_edges_attribute('q', 10, keys=form.edges_on_boundary())
+form.relax(fixed=form.vertices_where({'vertex_degree': 2}))
+
 for key in exterior:
     form.set_vertex_attribute(key, 'is_anchor', True)
 
-form.update_exterior(exterior, feet=1)
+form.update_exterior(exterior, feet=2)
 form.update_interior(interior)
 
 # set fmins - fmaxs ------------------------------------------------------------
 
-fmin = 20.
-fmax = 22.
-guids = compas_rhino.get_lines(layer='edges')
-edges = compas_rhino.get_line_coordinates(guids)
-edges= [[form.gkey_key()[geometric_key(u)], form.gkey_key()[geometric_key(v)]] for u, v in edges]
+fmin = 1.
+fmax = 1.5
+feet = form.edges_where({'is_edge': True, 'is_external': False})
 
-form.set_edges_attribute('fmin', fmin, edges)
-form.set_edges_attribute('fmax', fmax, edges)
+form.set_edges_attribute('fmin', fmin, feet)
+form.set_edges_attribute('fmax', fmax, feet)
 
 # make force diagram -----------------------------------------------------
 force = ForceDiagram.from_formdiagram(form)
-force.attributes['scale'] = 3.
+force.attributes['scale'] = 6.
 
 # horizontal equilibrium -------------------------------------------------------
 horizontal(form, force, kmax=100)
