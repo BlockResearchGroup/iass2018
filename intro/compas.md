@@ -117,7 +117,7 @@ corners = mesh.get_vertices_attributes('xyz', keys=mesh.vertices_where({'vertex_
 
 **example**
 
-* iass2018/exercises/day1/mesh_workingwiththedata.py
+[mesh_workingwiththedata.py](../exercises/day1/mesh_workingwiththedata.py)
 
 ```python
 
