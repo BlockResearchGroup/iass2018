@@ -53,33 +53,37 @@ def vertical_from_zmax(form, force, *args, **kwargs):
 guid = get_meshes(layer='mesh')[0]
 
 # make rhino form diagram ------------------------------------------------------
-form = mesh_from_guid(FormDiagram, guid)
+# form = mesh_from_guid(FormDiagram, guid)
+form = FormDiagram.from_obj(compas.get('faces.obj'))
+print(form)
 
 # set anchor points ------------------------------------------------------------
 for key in form.vertices_where({'vertex_degree': 2}):
     form.vertex[key]['is_anchor'] = True
 
 # make from diagram ------------------------------------------------------
-boundaries = form.vertices_on_boundary()
-exterior = boundaries[0]
-interior = boundaries[1:]
 
-for key in exterior:
-    form.set_vertex_attribute(key, 'is_anchor', True)
-
-form.update_exterior(exterior, feet=1)
-form.update_interior(interior)
-
-# make force diagram -----------------------------------------------------
-force = ForceDiagram.from_formdiagram(form)
-
-# horizontal equilibrium -------------------------------------------------------
-horizontal(form, force, kmax=100)
-
-# vertical equilibrium ---------------------------------------------------------
-vertical_from_zmax(form, force, zmax=3)
-
-# rhino drawing ----------------------------------------------------------------
+#boundaries = form.vertices_on_boundary()
+#
+#exterior = boundaries[0]
+#interior = boundaries[1:]
+#
+#for key in exterior:
+#    form.set_vertex_attribute(key, 'is_anchor', True)
+#
+#form.update_exterior(exterior, feet=2)
+#form.update_interior(interior)
+#
+## make force diagram -----------------------------------------------------
+#force = ForceDiagram.from_formdiagram(form)
+#
+## horizontal equilibrium -------------------------------------------------------
+#horizontal(form, force, kmax=100)
+#
+## vertical equilibrium ---------------------------------------------------------
+#vertical_from_zmax(form, force, zmax=3)
+#
+## rhino drawing ----------------------------------------------------------------
 artist = FormArtist(form, layer='FormDiagram')
 artist.clear_layer()
 artist.draw_vertices(keys=list(form.vertices_where({'is_external': False})))
@@ -89,8 +93,8 @@ artist.draw_reactions(scale=1)
 artist.draw_forces(scale=.01)
 artist.redraw()
 
-artist_ = ForceArtist(force, layer='ForceDiagram')
-artist_.clear_layer()
-artist_.draw_vertices()
-artist_.draw_edges()
-artist_.redraw()
+#artist_ = ForceArtist(force, layer='ForceDiagram')
+#artist_.clear_layer()
+#artist_.draw_vertices()
+#artist_.draw_edges()
+#artist_.redraw()
