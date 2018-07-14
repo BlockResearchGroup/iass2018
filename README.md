@@ -62,23 +62,18 @@ $ python
 
 ```
 
-
-## Download iass2018 workshop archive
-
-[IASS2018](https://github.com/BlockResearchGroup/iass2018/archive/master.zip)
-
-
-## Feedback
-
-https://github.com/BlockResearchGroup/iass2018/issues
-
-
 ## Links
 
 * https://compas-dev.github.io
-* https://forum.compas-framework.org
+
 * https://github.com/compas-dev/compas
 * https://github.com/compas-dev/compas_fea
 * https://github.com/compas-dev/compas_ags
 * https://github.com/compas-dev/compas_tna
 * https://github.com/compas-dev/compas_3gs
+
+
+## Help & Feedback
+
+* https://github.com/compas-dev/compas/issues
+* https://forum.compas-framework.org
