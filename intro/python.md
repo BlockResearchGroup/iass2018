@@ -1,6 +1,5 @@
 # Python 101
 
-
 ## Built-in functions
 
 * https://docs.python.org/3/library/functions.html
@@ -62,94 +61,119 @@ Containers
 * https://docs.python.org/3/library/collections.html
 * https://docs.python.org/3/library/collections.abc.html
 
-============ ================================ ================================================================== ===============================
-type         example                          description                                                        operations                    
-============ ================================ ================================================================== ===============================
-`list`   `[1, 2, 3]`                   Contains ordered, arbitrary objects                                iterate, slide, index, modify 
-`tuple`  `(1, 2, 3)`                   Contains ordered, arbitrary objects, but cannot be changed.        iterate, index, slice         
-`set`    `set([1, 2, 3])`              Contains unordered, distinct, hashable objects.                    iterate, modify               
-`dict`   `dict(one=1, two=2, three=3)` Maps unordered, distinct, hashable objects to arbitrary objects.   iterate, modify               
-============ ================================ ================================================================== ===============================
+| type    | example                       | description                                                      | operations                    |
+|:--------|:------------------------------|:-----------------------------------------------------------------|:------------------------------|
+| `list`  | `[1, 2, 3]`                   | Contains ordered, arbitrary objects                              | iterate, slide, index, modify |
+| `tuple` | `(1, 2, 3)`                   | Contains ordered, arbitrary objects, but cannot be changed.      | iterate, index, slice         |
+| `set`   | `set([1, 2, 3])`              | Contains unordered, distinct, hashable objects.                  | iterate, modify               |
+| `dict`  | `dict(one=1, two=2, three=3)` | Maps unordered, distinct, hashable objects to arbitrary objects. | iterate, modify               |
 
 
 **list**
 
-.. code-block:: python
+```python
     
-    l = [0, '1', [2], (3, ), dict(four=4)]
+l = [0, '1', [2], (3, ), dict(four=4)]
+
+```
 
 **tuple**
 
-.. code-block:: python
+```python
 
-    t = (0, '1', [2], (3, ), dict(four=4))
+t = (0, '1', [2], (3, ), dict(four=4))
 
-.. code-block:: python
+```
 
-    a = 1
-    b = 2
+```python
 
-    a, b = b, a
+a = 1
+b = 2
+
+a, b = b, a
+
+```
 
 **set**
 
-.. code-block:: python
+```python
 
-    s = set([1, 1, 2, 3, 3, 4])  # set([1, 2, 3, 4])
+s = set([1, 1, 2, 3, 3, 4])  # set([1, 2, 3, 4])
 
+```
 
 Comprehenions
 =============
 
 **list comprehension**
 
+```python
+
+even  = [i for i in range(10) if i % 2 == 0]
+odd   = [i for i in range(10) if i % 2]
+mixed = [i if i % 2 else None for i in range(10)]
+
+numbers = [str(i) for i  in range(100)]
+
+rows = [range(1, 4) for i in range(3)]
+flat = [item for row in rows for item in row]
+
+```
+
 **dict comprehension**
 
+```python
 
-Standard packages
-=================
+lookup = {name: year for name, year in zip(names, years)}
 
-* link to the standard library
+```
 
-.. code-block:: python
+Packages
+========
 
-    import sys
-    import os
-    import math
-    import json
-    import ast
-    import random
-    import ctypes
-    import copy
+**standard library**
 
-    # and many more
+```python
 
-.. code-block:: python
+import sys
+import os
+import math
+import random
 
-    from math import sqrt
-    from math import cos, sin
+# and many more
 
+```
 
-Third-party packages
-====================
+```python
 
-.. code-block:: python
+from math import sqrt
+from math import cos, sin
 
-    import numpy
-    import scipy
-    import pandas
-    import matplotlib
-    import networkx
-    import sympy
-    import PySide
-    import PyOpenGL
-    import PyCuda
+```
 
+**thrird-party**
+
+```python
+
+import numpy
+import scipy
+
+# and many many more
+
+```
+
+```python
+
+import compas
+import compas_rhino
+import compas_tna
+
+from compas.datastructures import Mesh
+
+```
 
 Exercises
 =========
-
-*Interactive notebook with solutions is available in the IASS 2018 repo*
 
 1. Use `range` to create a list of even numbers between 0 and 10.
 2. Use `range` to create a list of uneven numbers between 0 and 10.
