@@ -1,88 +1,79 @@
-# Workshop: Computational Graphic Statics
+# Computational Graphic Statics with COMPAS
 
 *Boston, 14-15 July 2018*
 
-* Tom Van Mele
-* Tomás Méndez
-* Juney Lee
 
-## Overview
+## Schedule
 
-**Day 1 - Morning**
+**Day 1**
 
-* Introduction
-    * BRG
-    * Graphic statics
-    * Graphic statics-based form finding
-    * Workshop objectives
-* COMPAS
-    * Overview
-    * Key concepts
-    * Technical details
-    * Setup
-    * Examples
-* Exercises
-    * Data structures
-    * Geometry
-    * Topology
-    * Numerical
-    * CAD
+*Morning*
 
-**Day 1 - Afternoon**
+* Computational Graphic Statics @ BRG
+* COMPAS intro
+* Python 101
+* COMPAS examples
 
-* compas_ags
-    * intro
-    * theoretical background
-    * examples
-* compas_tna
-    * intro
-    * theoretical background
-    * examples
-* compas_3gs
-    * DEMO
+*Afternoon*
+
+* Algebraic Graph Statics (*compas_ags*)
 
 **Day 2**
 
-* Recap
-* Project selection
-* Project development
+* Thrust Network analysis (*compas_tna*)
+* 3D Graphic Statics (*compas_3gs*)
+
 
 ## Getting Started
 
+
+**Install software**
+
 * [Anaconda3](https://www.anaconda.com/download)
 * [Sublime Text 3](https://www.sublimetext.com/)
+   * ST3 Package: Anaconda
+   * ST3 Package: SidebarEnhancements
+* [Rhino3D 5](https://www.rhino3d.com/)
 
-**Notes**
 
-* Install Rhino/Rhinomac
-* Install packages for ST3 (including compas-dev?)
-* Install COMPAS using compas-dev package for ST3?
-* Install additional packages using compas-dev?
-* Configure Rhino
+**Install COMPAS packages**
 
-## iass2018 Archive
+```
 
-Download [IASS2018](https://github.com/BlockResearchGroup/iass2018/archive/master.zip)
+$ pip install git+https://github.com/compas-dev/compas.git@develop
 
-* iass2018
-    * data
-    * exercises
-    * me
-    * models
-    * notebooks
-    * projects
-    * temp
+$ pip install git+https://github.com/BlockResearchGroup/compas_ags.git@develop
 
-## Feedback
+$ pip install git+https://github.com/BlockResearchGroup/compas_tna.git@develop
 
-https://github.com/BlockResearchGroup/iass2018/issues
+```
+
+**Verify installation**
+
+```
+
+$ python
+
+```
+
+```
+
+>>> import compas
+
+```
 
 ## Links
 
 * https://compas-dev.github.io
-* https://forum.compas-framework.org
+
 * https://github.com/compas-dev/compas
 * https://github.com/compas-dev/compas_fea
 * https://github.com/compas-dev/compas_ags
 * https://github.com/compas-dev/compas_tna
 * https://github.com/compas-dev/compas_3gs
+
+
+## Help & Feedback
+
+* https://github.com/compas-dev/compas/issues
+* https://forum.compas-framework.org
