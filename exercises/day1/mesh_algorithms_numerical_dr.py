@@ -141,7 +141,6 @@ plotter.draw_vertices(
 )
 
 plotter.draw_edges(
-    # text={(u, v): '{:.0f}'.format(attr['f']) for u, v, attr in mesh.edges(True)},
     color={(u, v): i_to_rgb(attr['f'] / fmax) for u, v, attr in mesh.edges(True)},
     width={(u, v): 10 * attr['f'] / fmax for u, v, attr in mesh.edges(True)}
 )

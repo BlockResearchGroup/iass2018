@@ -117,7 +117,7 @@ corners = mesh.get_vertices_attributes('xyz', keys=mesh.vertices_where({'vertex_
 
 **example**
 
-[mesh_workingwiththedata.py](../exercises/day1/mesh_workingwiththedata.py)
+* iass2018/exercises/day1/mesh_workingwiththedata.py
 
 ```python
 
@@ -169,13 +169,8 @@ plotter.show()
 * `mesh.is_vertex_on_boundary()`
 * `mesh.is_vertex_connected()`
 
-**faces**
 
-**edges**
-
-
-Algorithms
-==========
+## Algorithms
 
 * iass2018/exercises/day1/mesh_algorithms_geometry_smoothing.py
 * iass2018/exercises/day1/mesh_algorithms_topology_remeshing.py
@@ -183,10 +178,6 @@ Algorithms
 * iass2018/exercises/day1/mesh_algorithms_numerical_dr.py
 
 
-CAD
-===
+## CAD
 
-
-XFunc
-=====
-
+* iass2018/exercises/day1/mesh_cad.py
