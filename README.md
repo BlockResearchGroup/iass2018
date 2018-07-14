@@ -11,41 +11,24 @@
 **Day 1 - Morning**
 
 * Introduction
-    * BRG
-    * Graphic statics
-    * Graphic statics-based form finding
-    * Workshop objectives
 * COMPAS
-    * Overview
-    * Key concepts
-    * Technical details
-    * Setup
-    * Examples
 * Exercises
-    * Data structures
-    * Geometry
-    * Topology
-    * Numerical
-    * CAD
 
 **Day 1 - Afternoon**
 
 * compas_ags
-    * intro
-    * theoretical background
-    * examples
 * compas_tna
-    * intro
-    * theoretical background
-    * examples
 * compas_3gs
-    * DEMO
 
 **Day 2**
 
 * Recap
-* Project selection
+* Project definition
 * Project development
+
+## Objectives
+
+Learn the basics of computational graphic statics using the COMPAS packages ``compas_ags``, ``compas_tna``, ``compas_3gs``.
 
 ## Getting Started
 
@@ -54,15 +37,25 @@
 
 **Notes**
 
-* Install Rhino/Rhinomac
-* Install packages for ST3 (including compas-dev?)
-* Install COMPAS using compas-dev package for ST3?
-* Install additional packages using compas-dev?
+* Install Rhino
+* Install packages for ST3
 * Configure Rhino
 
-## iass2018 Archive
+## Install COMPAS packages
 
-Download [IASS2018](https://github.com/BlockResearchGroup/iass2018/archive/master.zip)
+```
+$ pip install git+https://github.com/compas-dev/compas/tree@develop
+```
+```
+$ pip install git+https://github.com/compas-dev/compas_ags/tree@develop
+```
+```
+$ pip install git+https://github.com/BlockResearchGroup/compas_tna/tree@develop
+```
+
+## Download iass2018 Archive
+
+[IASS2018](https://github.com/BlockResearchGroup/iass2018/archive/master.zip)
 
 * iass2018
     * data
