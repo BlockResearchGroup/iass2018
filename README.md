@@ -1,37 +1,77 @@
-# Workshop: Computational Graphic Statics
+# Computational Graphic Statics with COMPAS
 
 *Boston, 14-15 July 2018*
 
+
+## Schedule
+
+**Day 1**
+
+*Morning*
+
+* Computational Graphic Statics @ BRG
+* COMPAS intro
+* Python 101
+* COMPAS examples
+
+*Afternoon*
+
+* Algebraic Graph Statics (*compas_ags*)
+
+**Day 2**
+
+* Thrust Network analysis (*compas_tna*)
+* 3D Graphic Statics (*compas_3gs*)
+
+
 ## Getting Started
+
+
+**Install software**
 
 * [Anaconda3](https://www.anaconda.com/download)
 * [Sublime Text 3](https://www.sublimetext.com/)
+   * ST3 Package: Anaconda
+   * ST3 Package: SidebarEnhancements
+* [Rhino3D 5](https://www.rhino3d.com/)
 
-**Notes**
 
-* Install Rhino
-* Install packages for ST3
-* Configure Rhino
-
-## Install COMPAS packages
+**Install COMPAS packages**
 
 ```
-$ pip install git+https://github.com/compas-dev/compas/tree@develop
-```
-```
-$ pip install git+https://github.com/compas-dev/compas_ags/tree@develop
-```
-```
-$ pip install git+https://github.com/BlockResearchGroup/compas_tna/tree@develop
+
+$ pip install git+https://github.com/compas-dev/compas.git@develop
+
+$ pip install git+https://github.com/BlockResearchGroup/compas_ags.git@develop
+
+$ pip install git+https://github.com/BlockResearchGroup/compas_tna.git@develop
+
 ```
 
-## Download iass2018 Archive
+**Verify installation**
+
+```
+
+$ python
+
+```
+
+```
+
+>>> import compas
+
+```
+
+
+## Download iass2018 workshop archive
 
 [IASS2018](https://github.com/BlockResearchGroup/iass2018/archive/master.zip)
+
 
 ## Feedback
 
 https://github.com/BlockResearchGroup/iass2018/issues
+
 
 ## Links
 
