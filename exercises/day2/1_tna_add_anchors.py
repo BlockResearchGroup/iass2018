@@ -14,6 +14,8 @@ from compas_tna.diagrams import FormDiagram
 from compas_tna.diagrams import ForceDiagram
 
 from compas_tna.equilibrium import horizontal_rhino as horizontal
+from compas_tna.equilibrium import vertical_from_zmax_rhino as vertical_from_zmax
+from compas_tna.equilibrium import vertical_from_self_rhino as vertical_from_self
 from compas_tna.equilibrium import vertical_from_formforce_rhino as vertical_from_formforce
 
 from compas_tna.rhino import FormArtist
@@ -55,7 +57,7 @@ form.update_interior(interior)
 # make force diagram
 # ------------------------------------------------------------------------------
 force = ForceDiagram.from_formdiagram(form)
-force.attributes['scale'] = 6.
+force.attributes['scale'] = 4.
 
 # ------------------------------------------------------------------------------
 # horizontal equilibrium
@@ -65,6 +67,8 @@ horizontal(form, force, kmax=100)
 # ------------------------------------------------------------------------------
 # vertical equilibrium
 # ------------------------------------------------------------------------------
+vertical_from_zmax(form, force, zmax=5.)
+vertical_from_self(form, force)
 vertical_from_formforce(form, force)
 
 # ------------------------------------------------------------------------------

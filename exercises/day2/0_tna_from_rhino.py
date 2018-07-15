@@ -50,7 +50,6 @@ form.update_interior(interior)
 # make force diagram
 # ------------------------------------------------------------------------------
 force = ForceDiagram.from_formdiagram(form)
-force.attributes['scale'] = 6.
 
 # ------------------------------------------------------------------------------
 # horizontal equilibrium

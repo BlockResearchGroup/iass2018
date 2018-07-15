@@ -50,8 +50,8 @@ form.update_exterior(exterior, feet=2)
 form.update_interior(interior)
 
 # set fmins - fmaxs ------------------------------------------------------------
-fmin = 3.
-fmax = 4.5
+fmin = 10.
+fmax = 15.
 feet = form.edges_where({'is_edge': True, 'is_external': False})
 form.set_edges_attribute('fmin', fmin, feet)
 form.set_edges_attribute('fmax', fmax, feet)

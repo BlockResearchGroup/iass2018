@@ -50,8 +50,8 @@ form.update_exterior(exterior, feet=2)
 form.update_interior(interior)
 
 # set fmins - fmaxs ------------------------------------------------------------
-fmin = 20.
-fmax = 22.
+fmin = 10.
+fmax = 12.
 guids = compas_rhino.get_lines(layer='edges')
 edges = compas_rhino.get_line_coordinates(guids)
 edges= [[form.gkey_key()[geometric_key(u)], form.gkey_key()[geometric_key(v)]] for u, v in edges]

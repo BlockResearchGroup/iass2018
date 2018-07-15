@@ -13,6 +13,8 @@ from compas_tna.diagrams import FormDiagram
 from compas_tna.diagrams import ForceDiagram
 
 from compas_tna.equilibrium import horizontal_rhino as horizontal
+from compas_tna.equilibrium import vertical_from_zmax_rhino as vertical_from_zmax
+from compas_tna.equilibrium import vertical_from_self_rhino as vertical_from_self
 from compas_tna.equilibrium import vertical_from_formforce_rhino as vertical_from_formforce
 
 from compas_tna.rhino import FormArtist
@@ -40,7 +42,7 @@ for key in form.vertices_where({'vertex_degree': 2}):
     form.vertex[key]['is_anchor'] = True
 
 # relax form diagram -----------------------------------------------------------
-form.set_edges_attribute('q', 4, keys=form.edges_on_boundary())
+form.set_edges_attribute('q', 15, keys=form.edges_on_boundary())
 form.relax(fixed=form.vertices_where({'vertex_degree': 2}))
 
 # pre-process / feet-making ----------------------------------------------------
@@ -51,7 +53,6 @@ form.update_interior(interior)
 # make force diagram
 # ------------------------------------------------------------------------------
 force = ForceDiagram.from_formdiagram(form)
-force.attributes['scale'] = 18.5
 
 # ------------------------------------------------------------------------------
 # horizontal equilibrium
@@ -61,6 +62,8 @@ horizontal(form, force, kmax=100)
 # ------------------------------------------------------------------------------
 # vertical equilibrium
 # ------------------------------------------------------------------------------
+vertical_from_zmax(form, force, zmax=5.)
+vertical_from_self(form, force)
 vertical_from_formforce(form, force)
 
 # ------------------------------------------------------------------------------
