@@ -16,38 +16,41 @@ mesh.update_default_vertex_attributes({'is_fixed': False, 'px': 0.0, 'py': 0.0, 
 mesh.update_default_edge_attributes({'q': 1.0})
 
 
-# ==============================================================================
-# update the boundary conditions
+# for uv in mesh.edges_on_boundary():
+#     mesh.set_edge_attribute(uv, 'q', 10)
 
-for key, attr in mesh.vertices(True):
-    attr['is_fixed'] = mesh.vertex_degree(key) == 2
+# # ==============================================================================
+# # update the boundary conditions
 
-
-# ==============================================================================
-# create a plotter for visualisation
-
-plotter = MeshPlotter(mesh, figsize=(10, 7))
-
-plotter.draw_as_lines(color='#cccccc', width=0.5)
+# for key, attr in mesh.vertices(True):
+#     attr['is_fixed'] = mesh.vertex_degree(key) == 2
 
 
-# ==============================================================================
-# apply force density
+# # ==============================================================================
+# # create a plotter for visualisation
 
-mesh_fd_numpy(mesh)
+# plotter = MeshPlotter(mesh, figsize=(10, 7))
+
+# plotter.draw_as_lines(color='#cccccc', width=0.5)
 
 
-# ==============================================================================
-# visualise the result
+# # ==============================================================================
+# # apply force density
 
-zmax = max(mesh.get_vertices_attribute('z'))
-fmax = max(mesh.get_edges_attribute('f'))
+# mesh_fd_numpy(mesh)
 
-plotter.draw_vertices()
-plotter.draw_faces()
-plotter.draw_edges(
-    width={(u, v): 10 * attr['f'] / fmax for u, v, attr in mesh.edges(True)},
-    color={(u, v): i_to_rgb(attr['f'] / fmax) for u, v, attr in mesh.edges(True)},
-)
 
-plotter.show()
+# # ==============================================================================
+# # visualise the result
+
+# zmax = max(mesh.get_vertices_attribute('z'))
+# fmax = max(mesh.get_edges_attribute('f'))
+
+# plotter.draw_vertices()
+# plotter.draw_faces()
+# plotter.draw_edges(
+#     width={(u, v): 10 * attr['f'] / fmax for u, v, attr in mesh.edges(True)},
+#     color={(u, v): i_to_rgb(attr['f'] / fmax) for u, v, attr in mesh.edges(True)},
+# )
+
+# plotter.show()

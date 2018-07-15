@@ -12,12 +12,15 @@ mesh = Mesh.from_obj(compas.get('faces.obj'))
 
 
 # ==============================================================================
-# update the boundary conditions
+# get the data
 
 vertices  = mesh.get_vertices_attributes('xyz')
 faces     = [mesh.face_vertices(fkey) for fkey in mesh.faces()]
+
+print(faces)
+
 adjacency = [mesh.vertex_neighbours(key) for key in mesh.vertices()]
-fixed     = [key for key in mesh.vertices() if mesh.vertex_degree(key) == 2]
+fixed     = [key for key in mesh.vertices_where({'vertex_degree': 2})]
 
 
 # ==============================================================================

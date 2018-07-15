@@ -25,7 +25,7 @@ __all__ = []
 form = FormDiagram.from_obj(compas_ags.get('paper/gs_form_force.obj'))
 force = ForceDiagram.from_formdiagram(form)
 
-form.set_edge_force_by_index(1, -30.0)
+form.set_edge_force_by_index(1, 10.0)
 
 gs.update_forcedensity(form)
 gs.update_forcediagram(force, form)

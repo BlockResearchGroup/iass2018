@@ -16,7 +16,7 @@ from compas_rhino import mesh_from_surface_uv
 # construct a mesh from a surface UV space
 
 guid = compas_rhino.select_surface()
-mesh = mesh_from_surface_uv(Mesh, guid)
+mesh = mesh_from_surface_uv(Mesh, guid, (20, 20))
 
 
 # ==============================================================================
